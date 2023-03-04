@@ -4,6 +4,7 @@ import { Loader } from 'components/Loader/Loader';
 import { getImage } from 'components/services/PixabayAPI';
 import React, { Component } from 'react';
 import { Wrap } from './ImageGallery.styled';
+import { toast } from 'react-hot-toast';
 
 export class ImageGallary extends Component {
   state = {
@@ -30,9 +31,15 @@ export class ImageGallary extends Component {
             totalPages: Math.ceil(images.totalHits / 12),
           });
 
-          if (!this.hasMorePhotos()) {
-            this.toggleShowBtn();
+          if (Math.ceil(images.totalHits / 12) === 0) {
+            toast.error('No images on your request!');
+            return;
           }
+
+          if (this.state.page < Math.ceil(images.totalHits / 12)) {
+            return this.setState({ isShowButton: true });
+          }
+          this.setState({ isShowButton: false });
         })
         .catch(error => console.log(error))
         .finally(() => this.setState({ loading: false }));
@@ -46,9 +53,10 @@ export class ImageGallary extends Component {
             images: [...prevState.images, ...images.hits],
           });
 
-          if (!this.hasMorePhotos()) {
-            this.toggleShowBtn();
+          if (this.state.page < Math.ceil(images.totalHits / 12)) {
+            return this.setState({ isShowButton: true });
           }
+          this.setState({ isShowButton: false });
         })
         .catch(error => console.log(error));
     }
@@ -56,14 +64,6 @@ export class ImageGallary extends Component {
 
   loadMore = () => {
     this.setState({ page: this.state.page + 1 });
-  };
-
-  toggleShowBtn = () => {
-    this.setState({ isShowButton: !this.state.isShowButton });
-  };
-
-  hasMorePhotos = () => {
-    return this.state.page < this.state.totalPages;
   };
 
   render() {
