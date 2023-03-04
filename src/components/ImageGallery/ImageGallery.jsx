@@ -5,6 +5,7 @@ import { getImage } from 'components/services/PixabayAPI';
 import React, { Component } from 'react';
 import { Wrap } from './ImageGallery.styled';
 import { toast } from 'react-hot-toast';
+import PropTypes from 'prop-types';
 
 export class ImageGallary extends Component {
   state = {
@@ -85,3 +86,7 @@ export class ImageGallary extends Component {
     );
   }
 }
+
+ImageGallary.propTypes = {
+  value: PropTypes.string.isRequired,
+};

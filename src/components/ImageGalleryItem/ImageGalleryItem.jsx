@@ -1,5 +1,6 @@
 import { Modal } from 'components/Modal/Modal';
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 
 export class ImageGalleryItem extends Component {
   state = {
@@ -32,3 +33,11 @@ export class ImageGalleryItem extends Component {
     );
   }
 }
+
+ImageGalleryItem.propTypes = {
+  img: PropTypes.shape({
+    hits: PropTypes.array.isRequired,
+    total: PropTypes.number.isRequired,
+    totalHits: PropTypes.number.isRequired,
+  }).isRequired,
+};

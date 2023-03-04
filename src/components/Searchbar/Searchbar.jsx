@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { toast } from 'react-hot-toast';
 import { FcSearch } from 'react-icons/fc';
+import PropTypes from 'prop-types';
 
 export class Searchbar extends Component {
   state = {
@@ -50,3 +51,7 @@ export class Searchbar extends Component {
     );
   }
 }
+
+Searchbar.propTypes = {
+  onSearch: PropTypes.func.isRequired,
+};
