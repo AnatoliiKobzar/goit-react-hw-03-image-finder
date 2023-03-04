@@ -15,19 +15,13 @@ export class ImageGalleryItem extends Component {
 
   render() {
     const { showModal } = this.state;
+    const { webformatURL, tags, largeImageURL } = this.props.img;
+
     return (
       <li className="ImageGalleryItem" onClick={this.toggleModal}>
-        <img
-          className="ImageGalleryItem-image"
-          src={this.props.img.webformatURL}
-          alt={this.props.img.tags}
-        />
+        <img className="ImageGalleryItem-image" src={webformatURL} alt={tags} />
         {showModal && (
-          <Modal
-            alt={this.props.img.tags}
-            src={this.props.img.largeImageURL}
-            onClose={this.toggleModal}
-          />
+          <Modal alt={tags} src={largeImageURL} onClose={this.toggleModal} />
         )}
       </li>
     );

@@ -17,14 +17,17 @@ export class ImageGallary extends Component {
   };
 
   componentDidUpdate(prevProps, prevState) {
-    if (prevProps.value !== this.props.value) {
+    const { page } = this.state;
+    const { value } = this.props;
+
+    if (prevProps.value !== value) {
       this.setState({
         loading: true,
         images: [],
         page: 1,
       });
 
-      getImage(this.props.value.trim())
+      getImage(value.trim())
         .then(response => response.json())
         .then(images => {
           this.setState({
@@ -37,7 +40,7 @@ export class ImageGallary extends Component {
             return;
           }
 
-          if (this.state.page < Math.ceil(images.totalHits / 12)) {
+          if (page < Math.ceil(images.totalHits / 12)) {
             return this.setState({ isShowButton: true });
           }
           this.setState({ isShowButton: false });
@@ -46,15 +49,15 @@ export class ImageGallary extends Component {
         .finally(() => this.setState({ loading: false }));
     }
 
-    if (prevState.page !== this.state.page && this.state.page !== 1) {
-      getImage(this.props.value.trim(), this.state.page)
+    if (prevState.page !== page && page !== 1) {
+      getImage(value.trim(), page)
         .then(response => response.json())
         .then(images => {
           this.setState({
             images: [...prevState.images, ...images.hits],
           });
 
-          if (this.state.page < Math.ceil(images.totalHits / 12)) {
+          if (page < Math.ceil(images.totalHits / 12)) {
             return this.setState({ isShowButton: true });
           }
           this.setState({ isShowButton: false });
